@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public class LogicTile : MonoBehaviour
 {
     public int height;
+    public GameObject item;
+
+    public int x, y;
 
     // Start is called before the first frame update
     void Start()
