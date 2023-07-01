@@ -1,3 +1,10 @@
+/*
+ * file: TwoDTile.cs
+ * author: D.H.
+ * feature: 2dÍßÆ¬µÄ½»»¥¿ØÖÆ
+ */
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -22,18 +29,21 @@ public class TwoDTile : MonoBehaviour
 
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
+    }
+
+    public void Init(Vector2Int worldPosition, Action actionOnClicked)
+    {
+        this.worldPosition = worldPosition;
+        //this.actionOnClicked = actionOnClicked;
     }
 
     private void OnMouseDown()
     {
         //actionOnClicked.Invoke();
         timeCounter = Time.time;
-        
     }
 
     private void OnMouseUp()

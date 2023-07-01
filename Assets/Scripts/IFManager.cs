@@ -4,6 +4,7 @@
  * feature: 界面（interface）管理器
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,8 +19,11 @@ public class IFManager : MonoBehaviour
     #endregion
 
     #region 显示状态
-    public bool inDrag = false;
+    public bool inDrag { get { return _inDrag; } }
+    private bool _inDrag = false;
     #endregion
+
+    public Action actionOnClicked;
 
     private void Awake()
     {
@@ -29,12 +33,12 @@ public class IFManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

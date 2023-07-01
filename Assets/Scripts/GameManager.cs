@@ -1,3 +1,9 @@
+/*
+ * file: GameManager.cs
+ * author: D.H.
+ * feature: ÓÎÏ·Âß¼­¹ÜÀíÆ÷
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
