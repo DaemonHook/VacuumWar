@@ -8,6 +8,9 @@ public class TwoDTile : MonoBehaviour
 {
     LogicTile logicTile;
 
+    public Vector2Int worldPosition;
+    float timeCounter;
+
     private void Awake()
     {
         logicTile = GetComponent<LogicTile>();
@@ -19,28 +22,28 @@ public class TwoDTile : MonoBehaviour
 
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.touchCount > 0)
+    }
+
+    private void OnMouseDown()
+    {
+        //actionOnClicked.Invoke();
+        timeCounter = Time.time;
+        
+    }
+
+    private void OnMouseUp()
+    {
+        float timeSpent = Time.time - timeCounter;
+        if (timeCounter > 0.0f && timeSpent > IFManager.instance.clickSensitivity
+            && IFManager.instance.inDrag == false)
         {
-            Touch touch = Input.GetTouch(0);
-
-            if (touch.phase == TouchPhase.Began)
-            {
-                Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.gameObject == gameObject)
-                    {
-                        // 在这里执行点击物体触发的事件
-                        // 可以调用其他脚本中的方法或在此处添加自定义逻辑
-                        Debug.Log("Clicked!");
-                    }
-                }
-            }
+            Debug.Log($"{this.worldPosition} cell is clicked!");
+            //actionOnClicked();
         }
     }
 }
