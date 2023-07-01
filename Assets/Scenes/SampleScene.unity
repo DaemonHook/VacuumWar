@@ -4603,6 +4603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickSensitivity: 0
+  inDrag: 0
 --- !u!114 &182483011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11080,6 +11081,7 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -11204,6 +11206,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bf10b3cac18d8649a0a307724715adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftDown: {x: -15, y: -7}
+  upRight: {x: 15, y: 7}
+  tolerance: 0
+  sensitivity: 0.05
+  duration: 0.125
 --- !u!1001 &526416189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39283,11 +39302,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6427654969377082867, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
   m_PrefabInstance: {fileID: 1920508019}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1923765045 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1458787324058551058, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
-  m_PrefabInstance: {fileID: 238105724154258371}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1923861763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43888,14 +43902,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile
       objectReference: {fileID: 0}
-    - target: {fileID: 1458787324058551058, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 6195380716262359719, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 6427654969377082867, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
       propertyPath: m_RootOrder
       value: -1
@@ -43940,49 +43946,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -1339245673867925163, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1458787324058551058, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 238105724154258374}
-    - targetCorrespondingSourceObject: {fileID: 1458787324058551058, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 238105724154258373}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
 --- !u!4 &238105724154258372 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6427654969377082867, guid: 9f7b25c1baef4604f90915974319ee8f, type: 3}
   m_PrefabInstance: {fileID: 238105724154258371}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &238105724154258373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923765045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0eaa71a88ab34854c9418130ae6cd448, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  height: 0
-  item: {fileID: 0}
-  x: 0
-  y: 0
---- !u!114 &238105724154258374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923765045}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4e0fcc45f9562a4a844a3ac4c372040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldPosition: {x: 0, y: 0}

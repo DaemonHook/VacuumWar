@@ -19,8 +19,7 @@ public class IFManager : MonoBehaviour
     #endregion
 
     #region ÏÔÊ¾×´Ì¬
-    public bool inDrag { get { return _inDrag; } }
-    private bool _inDrag = false;
+    public bool inDrag = false;
     #endregion
 
     public Action actionOnClicked;

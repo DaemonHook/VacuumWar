@@ -15,12 +15,20 @@ public class TwoDTile : MonoBehaviour
 {
     LogicTile logicTile;
 
-    public Vector2Int worldPosition;
+    // Ñ¡Ôñ¿ò
+    public GameObject selectedGO;
+
     float timeCounter;
+
+    private void SelectedModeOn()
+    {
+        selectedGO.SetActive(true);
+    }
 
     private void Awake()
     {
         logicTile = GetComponent<LogicTile>();
+        selectedGO.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -36,7 +44,7 @@ public class TwoDTile : MonoBehaviour
 
     public void Init(Vector2Int worldPosition, Action actionOnClicked)
     {
-        this.worldPosition = worldPosition;
+        //this.worldPosition = worldPosition;
         //this.actionOnClicked = actionOnClicked;
     }
 
@@ -52,7 +60,8 @@ public class TwoDTile : MonoBehaviour
         if (timeCounter > 0.0f && timeSpent > IFManager.instance.clickSensitivity
             && IFManager.instance.inDrag == false)
         {
-            Debug.Log($"{this.worldPosition} cell is clicked!");
+            //Debug.Log($"{this.worldPosition} cell is clicked!");
+            SelectedModeOn();
             //actionOnClicked();
         }
     }

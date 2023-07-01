@@ -12,7 +12,7 @@ public class LogicTile : MonoBehaviour
 {
     public int height;
     public GameObject item;
-
+    public Vector2Int worldPosition;
     public int x, y;
 
     // Start is called before the first frame update
