@@ -1,7 +1,7 @@
 /*
  * file: IFManager.cs
  * author: D.H.
- * feature: ½çÃæ£¨interface£©¹ÜÀíÆ÷
+ * feature: äº¤äº’ï¼ˆinterfaceï¼‰ç®¡ç†å™¨
  */
 
 using System;
@@ -13,16 +13,34 @@ public class IFManager : MonoBehaviour
 {
     public static IFManager instance;
 
-    #region È«¾ÖÉèÖÃ
-    [Header("µã»÷ÁéÃô¶È")]
+    #region å®ç°åŠŸèƒ½çš„æ¨¡å—
+    public CameraMove cameraMove;
+    #endregion
+
+    #region äº¤äº’è®¾ç½®
+    [Header("ç‚¹å‡»çµæ•åº¦")]
     public float clickSensitivity;
     #endregion
 
-    #region ÏÔÊ¾×´Ì¬
-    public bool inDrag = false;
+    #region äº¤äº’çŠ¶æ€
+    public bool inDrag { get; private set; }
     #endregion
 
-    public Action actionOnClicked;
+    public void EnterDrag()
+    {
+        inDrag = true;
+    }
+
+    public void LeaveDrag()
+    {
+        inDrag = false;
+    }
+
+    public void SetMapSize(Vector2Int size)
+    {
+        cameraMove.leftDown = new Vector2Int(0, 0);
+        cameraMove.upRight = size;
+    }
 
     private void Awake()
     {
@@ -32,12 +50,15 @@ public class IFManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (!inDrag && Input.GetMouseButtonDown(0))
+        {
+            StartCoroutine(cameraMove.DragMoveCoroutine());
+        }
     }
 }

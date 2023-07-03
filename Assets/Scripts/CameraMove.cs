@@ -1,7 +1,7 @@
 /*
  * file: CameraMove.cs
  * author: D.H.
- * feature: “∆∂ØæµÕ∑
+ * feature: ÁßªÂä®Áõ∏Êú∫
  */
 
 using System.Collections;
@@ -15,33 +15,21 @@ public class CameraMove : MonoBehaviour
 {
     private Camera thisCamera;
 
-    [Header("”Œœ∑«¯”Ú¥Û–°")]
+    [Header("Áõ∏Êú∫ÁßªÂä®ËåÉÂõ¥")]
     public Vector2 leftDown, upRight;
 
-    [Header("æµÕ∑“∆∂Ø±ﬂΩÁµƒ»›≤Ó")]
+    [Header("ÁßªÂä®ÂÆπÂ∑Æ")]
     public float tolerance;
 
-    [Header("æµÕ∑“∆∂Øµƒ¡È√Ù∂»")]
+    [Header("ÁßªÂä®ÁÅµÊïèÂ∫¶")]
     public float sensitivity;
 
-    [Header("“∆∂Ø≥÷–¯ ±º‰")]
+    [Header("ÁßªÂä®Êó∂Èó¥")]
     public float duration;
-
-    private Vector2 mapSize;
-
-    private bool inDrag = false;
 
     private void Awake()
     {
         thisCamera = GetComponent<Camera>();
-    }
-
-    private void Update()
-    {
-        if (!IFManager.instance.inDrag && Input.GetMouseButtonDown(0))
-        {
-            StartCoroutine(DragMoveCoroutine());
-        }
     }
 
     Vector3 GetMousePositionInWorld()
@@ -50,38 +38,37 @@ public class CameraMove : MonoBehaviour
         return thisCamera.ScreenToWorldPoint(screenPosition);
     }
 
-    private IEnumerator DragMoveCoroutine()
+    public IEnumerator DragMoveCoroutine()
     {
+        IFManager.instance.EnterDrag();
         Vector3 initialMousePosition = GetMousePositionInWorld();
-        Debug.Log($"originPosition: {initialMousePosition}");
+        //Debug.Log($"originPosition: {initialMousePosition}");
         while (Input.GetMouseButton(0))
         {
             //Debug.Log("Check Drag!");
             Vector3 currentMousePosition = GetMousePositionInWorld();
             Vector3 travel = currentMousePosition - initialMousePosition;
-            Debug.Log($"target: {transform.position - travel}");
+            //Debug.Log($"target: {transform.position - travel}");
             travel.z = 0;
             if (travel.magnitude / transform.GetComponent<Camera>().orthographicSize > sensitivity)
             {
-                IFManager.instance.inDrag = true;
+                CameraMoveWithTolerance(transform.position - travel);
             }
-            CameraMoveWithTolerance(transform.position - travel);
             yield return null;
         }
-        IFManager.instance.inDrag = false;
+        IFManager.instance.LeaveDrag();
     }
 
     public void CameraMoveWithTolerance(Vector3 target)
     {
         target.x = Mathf.Clamp(target.x, leftDown.x + tolerance, upRight.x - tolerance);
         target.y = Mathf.Clamp(target.y, leftDown.y + tolerance, upRight.y - tolerance);
-        Debug.Log($"Camera move to {target}");
+        //Debug.Log($"Camera move to {target}");
         transform.DOMove(target, duration);
     }
 
     public void Init(Vector2 mapSize, Vector2 originPos)
     {
-        this.mapSize = mapSize;
         transform.position = new Vector3(originPos.x, originPos.y, -10.0f);
     }
 }

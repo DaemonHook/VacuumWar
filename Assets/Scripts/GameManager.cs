@@ -1,7 +1,7 @@
 /*
  * file: GameManager.cs
  * author: D.H.
- * feature: ÓÎÏ·Âß¼­¹ÜÀíÆ÷
+ * feature: æ¸¸æˆé€»è¾‘æ§åˆ¶
  */
 
 using System.Collections;
@@ -12,15 +12,29 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    #region æ¸¸æˆå›¾å±‚çš„å¼•ç”¨
+    public GameObject tilesLayerGO, groundLayerGO, unitLayerGO;
 
-
-    #region ÓÎÏ·×´Ì¬
-    
+    private TileLayer tileLayer;
+    private GroundLayer groundLayer;
+    private UnitLayer unitLayer;
     #endregion
+
+    public Vector2Int mapSize;
+
+    public void Init()
+    {
+        Debug.Log("GameManager Init!");
+        tileLayer.Init(mapSize);
+    }
 
     private void Awake()
     {
         instance = this;
+        tileLayer = tilesLayerGO.GetComponent<TileLayer>();
+        groundLayer = groundLayerGO.GetComponent<GroundLayer>();
+        unitLayer = unitLayerGO.GetComponent<UnitLayer>();
+        Init();
     }
 
     // Start is called before the first frame update

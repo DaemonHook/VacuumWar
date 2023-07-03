@@ -1,7 +1,7 @@
 /*
  * file: TwoDTile.cs
  * author: D.H.
- * feature: 2dÍßÆ¬µÄ½»»¥¿ØÖÆ
+ * feature: 2dç“¦ç‰‡äº¤äº’é€»è¾‘
  */
 
 using System;
@@ -11,11 +11,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TwoDTile : MonoBehaviour
+public class TwoDTile : MonoBehaviour, ITileDisplay
 {
-    LogicTile logicTile;
+    private TileController upperController;
 
-    // Ñ¡Ôñ¿ò
+    // é€‰æ‹©æ¡†
     public GameObject selectedGO;
 
     float timeCounter;
@@ -25,9 +25,13 @@ public class TwoDTile : MonoBehaviour
         selectedGO.SetActive(true);
     }
 
+    private void SelectedModeOff()
+    {
+        selectedGO.SetActive(true);
+    }
+
     private void Awake()
     {
-        logicTile = GetComponent<LogicTile>();
         selectedGO.SetActive(false);
     }
 
@@ -50,7 +54,9 @@ public class TwoDTile : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log($"mouse down!");
         //actionOnClicked.Invoke();
+        Debug.Log($"Mouse down onto {upperController.worldPosition}");
         timeCounter = Time.time;
     }
 
@@ -61,8 +67,36 @@ public class TwoDTile : MonoBehaviour
             && IFManager.instance.inDrag == false)
         {
             //Debug.Log($"{this.worldPosition} cell is clicked!");
-            SelectedModeOn();
+            upperController.OnClicked();
             //actionOnClicked();
         }
+    }
+
+    public void TriggerSelectedMode(bool status)
+    {
+        if (status)
+        {
+            SelectedModeOn();
+        }
+        else
+        {
+            SelectedModeOff();
+        }
+    }
+
+    public void TriggerMoveStatusMode(MoveStatus moveStatus)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void BindController(TileController controller)
+    {
+        upperController = controller;
+        Debug.Log($"controller is {upperController}");
+    }
+
+    public void Init(Vector2Int position)
+    {
+        transform.position = new Vector3(position.x, position.y, 0);
     }
 }
