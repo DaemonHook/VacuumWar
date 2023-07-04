@@ -40,7 +40,6 @@ public class CameraMove : MonoBehaviour
 
     public IEnumerator DragMoveCoroutine()
     {
-        IFManager.instance.EnterDrag();
         Vector3 initialMousePosition = GetMousePositionInWorld();
         //Debug.Log($"originPosition: {initialMousePosition}");
         while (Input.GetMouseButton(0))
@@ -52,6 +51,7 @@ public class CameraMove : MonoBehaviour
             travel.z = 0;
             if (travel.magnitude / transform.GetComponent<Camera>().orthographicSize > sensitivity)
             {
+                IFManager.instance.EnterDrag();
                 CameraMoveWithTolerance(transform.position - travel);
             }
             yield return null;
@@ -67,8 +67,11 @@ public class CameraMove : MonoBehaviour
         transform.DOMove(target, duration);
     }
 
-    public void Init(Vector2 mapSize, Vector2 originPos)
+    public void Init(Vector2Int mapSize, Vector2Int originPos)
     {
+        leftDown = new Vector2Int(0, 0);
+        upRight = new Vector2Int(mapSize.x, mapSize.y);
+        Debug.Log($"leftDown: {leftDown}, upRight: {upRight}");
         transform.position = new Vector3(originPos.x, originPos.y, -10.0f);
     }
 }

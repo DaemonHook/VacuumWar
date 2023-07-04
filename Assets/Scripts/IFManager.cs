@@ -24,13 +24,35 @@ public class IFManager : MonoBehaviour
 
     #region 交互状态
     public bool inDrag { get; private set; }
+
+    // 当前选中的tile
+    private TileController curSelected;
+
     #endregion
 
+    public void Init()
+    {
+        InitCamera();
+    }
+
+    public void InitCamera()
+    {
+        cameraMove.Init(GameManager.instance.mapSize,
+            new Vector2Int(
+                GameManager.instance.mapSize.x / 2, GameManager.instance.mapSize.y / 2));
+    }
+
+    /// <summary>
+    /// 进入拖动状态
+    /// </summary>
     public void EnterDrag()
     {
         inDrag = true;
     }
 
+    /// <summary>
+    /// 离开拖动状态
+    /// </summary>
     public void LeaveDrag()
     {
         inDrag = false;
@@ -42,6 +64,16 @@ public class IFManager : MonoBehaviour
         cameraMove.upRight = size;
     }
 
+    public void TileClicked(TileController clickedTile)
+    {
+        if (curSelected != null)
+        {
+            curSelected.UnSelect();
+        }
+        clickedTile.Select();
+        curSelected = clickedTile;
+    }
+
     private void Awake()
     {
         instance = this;
@@ -50,7 +82,7 @@ public class IFManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame

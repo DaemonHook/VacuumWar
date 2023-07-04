@@ -1,4 +1,10 @@
-﻿using System;
+﻿/* 
+ * file: Enums.cs
+ * author: D.H.
+ * feature: 全局枚举
+ */
+
+using System;
 // 移动状态
 public enum MoveStatus
 {
@@ -10,3 +16,8 @@ public enum MoveStatus
 }
 
 
+public enum UnitType
+{
+    BUILDING,       // 建筑
+    TROOP,          // 部队
+}

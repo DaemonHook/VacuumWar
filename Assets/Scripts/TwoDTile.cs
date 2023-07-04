@@ -13,7 +13,7 @@ using UnityEngine.EventSystems;
 
 public class TwoDTile : MonoBehaviour, ITileDisplay
 {
-    private TileController upperController;
+    private TileController controller;
 
     // 选择框
     public GameObject selectedGO;
@@ -27,7 +27,7 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
 
     private void SelectedModeOff()
     {
-        selectedGO.SetActive(true);
+        selectedGO.SetActive(false);
     }
 
     private void Awake()
@@ -54,20 +54,20 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
 
     private void OnMouseDown()
     {
-        Debug.Log($"mouse down!");
+        //Debug.Log($"mouse down!");
         //actionOnClicked.Invoke();
-        Debug.Log($"Mouse down onto {upperController.worldPosition}");
+        //Debug.Log($"Mouse down onto {controller.worldPosition}");
         timeCounter = Time.time;
     }
 
     private void OnMouseUp()
     {
+        //Debug.Log($"{controller.worldPosition} cell is clicked!");
         float timeSpent = Time.time - timeCounter;
         if (timeCounter > 0.0f && timeSpent > IFManager.instance.clickSensitivity
             && IFManager.instance.inDrag == false)
         {
-            //Debug.Log($"{this.worldPosition} cell is clicked!");
-            upperController.OnClicked();
+            controller.OnClicked();
             //actionOnClicked();
         }
     }
@@ -91,8 +91,8 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
 
     public void BindController(TileController controller)
     {
-        upperController = controller;
-        Debug.Log($"controller is {upperController}");
+        this.controller = controller;
+        //Debug.Log($"controller is {upperController}");
     }
 
     public void Init(Vector2Int position)

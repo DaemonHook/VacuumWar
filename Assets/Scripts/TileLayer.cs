@@ -26,7 +26,7 @@ public class TileLayer : MonoBehaviour
         {
             for (int j = 0; j < size.y; j++)
             {
-                Debug.Log($"Init Tile at {i}, {j}");
+                //Debug.Log($"Init Tile at {i}, {j}");
                 var go = Instantiate(tile, transform);
                 go.GetComponent<TileController>().Init(new Vector2Int(i, j));
             }

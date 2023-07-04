@@ -27,10 +27,21 @@ public class TileController : MonoBehaviour
         tileDisplay.BindController(this);
     }
 
+    public void Select()
+    {
+        Debug.Log($"Selected {worldPosition}");
+        tileDisplay.TriggerSelectedMode(true);
+    }
+
+    public void UnSelect()
+    {
+        Debug.Log($"UnSelected {worldPosition}");
+        tileDisplay.TriggerSelectedMode(false);
+    }
+
     public void OnClicked()
     {
-        tileDisplay.TriggerSelectedMode(true);
-        Debug.Log($"Tile on {worldPosition} is clicked!");
+        IFManager.instance.TileClicked(this);
     }
 
 

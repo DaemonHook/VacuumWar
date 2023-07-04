@@ -22,11 +22,18 @@ public class GameManager : MonoBehaviour
 
     public Vector2Int mapSize;
 
+    // 当前选择的Tile
+    private TileController curSelected;
+
     public void Init()
     {
         Debug.Log("GameManager Init!");
         tileLayer.Init(mapSize);
+
+        IFManager.instance.Init();
     }
+
+    
 
     private void Awake()
     {
