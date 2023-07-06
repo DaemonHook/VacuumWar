@@ -7,7 +7,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,6 +16,16 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
 
     // 选择框
     public GameObject selectedGO;
+    
+    public GameObject tileColorGo;
+
+    #region 瓦片颜色定义
+    public Color[] groundColors;
+
+    public Color canceledColor, canMoveColor, cannotMoveColor, attackable, buildAble;
+
+    private static int tolCount = 0;
+    #endregion
 
     float timeCounter;
 
@@ -33,12 +42,19 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
     private void Awake()
     {
         selectedGO.SetActive(false);
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        if (groundColors.Length != 0)
+        {
+            //int curCount = tolCount % groundColors.Length;
+            //tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[UnityEngine.Random.Range(0, groundColors.Length)];
+            ////Debug.Log($"color is {groundColors[curCount]}");
+            //tolCount++;
+        }
     }
 
     // Update is called once per frame
@@ -64,8 +80,8 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
     {
         //Debug.Log($"{controller.worldPosition} cell is clicked!");
         float timeSpent = Time.time - timeCounter;
-        if (timeCounter > 0.0f && timeSpent > IFManager.instance.clickSensitivity
-            && IFManager.instance.inDrag == false)
+        if (timeCounter > 0.0f && timeSpent > InterfaceManager.instance.clickSensitivity
+            && InterfaceManager.instance.inDrag == false)
         {
             controller.OnClicked();
             //actionOnClicked();

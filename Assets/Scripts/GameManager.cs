@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager Init!");
         tileLayer.Init(mapSize);
 
-        IFManager.instance.Init();
+        InterfaceManager.instance.Init();
     }
 
     

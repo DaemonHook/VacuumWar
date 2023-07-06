@@ -41,7 +41,7 @@ public class TileController : MonoBehaviour
 
     public void OnClicked()
     {
-        IFManager.instance.TileClicked(this);
+        InterfaceManager.instance.TileClicked(this);
     }
 
 

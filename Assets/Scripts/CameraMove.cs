@@ -51,12 +51,12 @@ public class CameraMove : MonoBehaviour
             travel.z = 0;
             if (travel.magnitude / transform.GetComponent<Camera>().orthographicSize > sensitivity)
             {
-                IFManager.instance.EnterDrag();
+                InterfaceManager.instance.EnterDrag();
                 CameraMoveWithTolerance(transform.position - travel);
             }
             yield return null;
         }
-        IFManager.instance.LeaveDrag();
+        InterfaceManager.instance.LeaveDrag();
     }
 
     public void CameraMoveWithTolerance(Vector3 target)
@@ -71,7 +71,7 @@ public class CameraMove : MonoBehaviour
     {
         leftDown = new Vector2Int(0, 0);
         upRight = new Vector2Int(mapSize.x, mapSize.y);
-        Debug.Log($"leftDown: {leftDown}, upRight: {upRight}");
+        //Debug.Log($"leftDown: {leftDown}, upRight: {upRight}");
         transform.position = new Vector3(originPos.x, originPos.y, -10.0f);
     }
 }

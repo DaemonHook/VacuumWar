@@ -1,5 +1,5 @@
 /*
- * file: IFManager.cs
+ * file: InterfaceManager.cs
  * author: D.H.
  * feature: 交互（interface）管理器
  */
@@ -9,9 +9,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IFManager : MonoBehaviour
+public class InterfaceManager : MonoBehaviour
 {
-    public static IFManager instance;
+    public static InterfaceManager instance;
 
     #region 实现功能的模块
     public CameraMove cameraMove;
