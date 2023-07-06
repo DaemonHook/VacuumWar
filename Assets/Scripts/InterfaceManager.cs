@@ -42,6 +42,8 @@ public class InterfaceManager : MonoBehaviour
                 GameManager.instance.mapSize.x / 2, GameManager.instance.mapSize.y / 2));
     }
 
+    #region 设置交互状态
+
     /// <summary>
     /// 进入拖动状态
     /// </summary>
@@ -64,6 +66,10 @@ public class InterfaceManager : MonoBehaviour
         cameraMove.upRight = size;
     }
 
+    #endregion
+
+    #region 交互功能
+
     public void TileClicked(TileController clickedTile)
     {
         if (curSelected != null)
@@ -78,6 +84,8 @@ public class InterfaceManager : MonoBehaviour
     {
         instance = this;
     }
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()

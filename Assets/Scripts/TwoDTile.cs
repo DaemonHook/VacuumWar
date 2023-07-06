@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TwoDTile : MonoBehaviour, ITileDisplay
+public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPointerUpHandler
 {
     private TileController controller;
 
@@ -68,25 +68,6 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
         //this.actionOnClicked = actionOnClicked;
     }
 
-    private void OnMouseDown()
-    {
-        //Debug.Log($"mouse down!");
-        //actionOnClicked.Invoke();
-        //Debug.Log($"Mouse down onto {controller.worldPosition}");
-        timeCounter = Time.time;
-    }
-
-    private void OnMouseUp()
-    {
-        //Debug.Log($"{controller.worldPosition} cell is clicked!");
-        float timeSpent = Time.time - timeCounter;
-        if (timeCounter > 0.0f && timeSpent > InterfaceManager.instance.clickSensitivity
-            && InterfaceManager.instance.inDrag == false)
-        {
-            controller.OnClicked();
-            //actionOnClicked();
-        }
-    }
 
     public void TriggerSelectedMode(bool status)
     {
@@ -114,5 +95,23 @@ public class TwoDTile : MonoBehaviour, ITileDisplay
     public void Init(Vector2Int position)
     {
         transform.position = new Vector3(position.x, position.y, 0);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        //Debug.Log($"Pointer down: {eventData}");
+        timeCounter = Time.time;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        //Debug.Log($"Pointer up: {eventData}");
+        float timeSpent = Time.time - timeCounter;
+        if (timeCounter > 0.0f && timeSpent > InterfaceManager.instance.clickSensitivity
+            && InterfaceManager.instance.inDrag == false)
+        {
+            controller.OnClicked();
+            //actionOnClicked();
+        }
     }
 }
