@@ -1,0 +1,68 @@
+{
+    "version": 1,
+    "name": "水火既济",
+    "size": [
+        10,
+        10
+    ],
+    "ground": [
+        {
+            "name": "Water",
+            "position": [
+                1,
+                1
+            ]
+        },
+        {
+            "name": "Water",
+            "position": [
+                1,
+                2
+            ]
+        },
+        {
+            "name": "Water",
+            "position": [
+                1,
+                3
+            ]
+        },
+        {
+            "name": "Water",
+            "position": [
+                1,
+                3
+            ]
+        },
+        {
+            "name": "Hill",
+            "position": [
+                5,
+                3
+            ]
+        }
+    ],
+    "unit": [
+        {
+            "name": "King",
+            "position": [
+                1,
+                2
+            ]
+        },
+        {
+            "name": "Queen",
+            "position": [
+                3,
+                4
+            ]
+        },
+        {
+            "name": "Pawn",
+            "position": [
+                5,
+                6
+            ]
+        }
+    ]
+}

@@ -10,7 +10,7 @@ public interface IUnitDisplay
 {
     // 是否空闲
     bool IsIdle();
-    // 移动至
+    // 移动至地点（逻辑）
     void MoveTo(Vector2Int position);
 
     void ShowAttackEffect();

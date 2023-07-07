@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 7459655043758458754}
   - component: {fileID: 4482394185243284646}
   m_Layer: 0
-  m_Name: Text (TMP) (1)
+  m_Name: MP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -265,6 +265,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9072999397805191567}
+  - component: {fileID: 3103343390161775877}
+  - component: {fileID: 3239891684493324505}
   m_Layer: 0
   m_Name: UnitPre
   m_TagString: Untagged
@@ -291,6 +293,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3103343390161775877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2905915745925398485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c36b31d7f3883241be044af3295b1b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unitName: 
+  damage: 0
+  maxHitpoint: 0
+  maxMovePoint: 0
+  range: 0
+--- !u!114 &3239891684493324505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2905915745925398485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71025aebeff784720a8e9bcca8d900bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5137400650871408904
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +418,7 @@ GameObject:
   - component: {fileID: 4595020067348625092}
   - component: {fileID: 3521936229452302891}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -475,7 +506,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 6
+  m_text: 15
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

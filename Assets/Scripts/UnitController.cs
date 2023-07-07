@@ -9,7 +9,20 @@ using UnityEngine;
 
 public class UnitController : MonoBehaviour
 {
+    #region 外部设置
+    public string unitName;
     public int damage, maxHitpoint, maxMovePoint;
+    public int range;
+    #endregion
+
+    public UnitStatus status { get; private set; }
+
+    private void Awake()
+    {
+        status = new UnitStatus(unitName, maxHitpoint, maxMovePoint, damage, range);
+    }
+
+    
 
     // Use this for initialization
     void Start()

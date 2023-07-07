@@ -20,6 +20,9 @@ public class InterfaceManager : MonoBehaviour
     #region 交互设置
     [Header("点击灵敏度")]
     public float clickSensitivity;
+
+    [Header("单位移动时间")]
+    public float moveDuration;
     #endregion
 
     #region 交互状态
@@ -27,7 +30,7 @@ public class InterfaceManager : MonoBehaviour
 
     // 当前选中的tile
     private TileController curSelected;
-
+    
     #endregion
 
     public void Init()
@@ -78,14 +81,30 @@ public class InterfaceManager : MonoBehaviour
         }
         clickedTile.Select();
         curSelected = clickedTile;
+        
     }
+
+    /// <summary>
+    /// 单位的逻辑位置转化为物体实际位置
+    /// </summary>
+    /// <param name="logicPosition">逻辑位置</param>
+    /// <returns></returns>
+    public Vector3 GetActualPosition(Vector2Int logicPosition)
+    {
+        return new Vector3(logicPosition.x, logicPosition.y, 0);
+    }
+
+    public void ShowActions(TileController tileController)
+    {
+
+    }
+
+    #endregion
 
     private void Awake()
     {
         instance = this;
     }
-
-    #endregion
 
     // Start is called before the first frame update
     void Start()

@@ -22,9 +22,6 @@ public class GameManager : MonoBehaviour
 
     public Vector2Int mapSize;
 
-    // 当前选择的Tile
-    private TileController curSelected;
-
     public void Init()
     {
         Debug.Log("GameManager Init!");
@@ -33,7 +30,7 @@ public class GameManager : MonoBehaviour
         InterfaceManager.instance.Init();
     }
 
-    
+
 
     private void Awake()
     {
@@ -47,6 +44,29 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //List<UnitData> unitList = new List<UnitData>
+        //{
+        //    new UnitData() { name = "King", position = new int[] { 1, 2 } },
+        //    new UnitData() { name = "Queen", position = new int[] { 3, 4 } },
+        //    new UnitData() { name = "Pawn", position = new int[] { 5, 6 } },
+        //};
+        //List<GroundData> groundList = new List<GroundData>()
+        //{
+        //    new GroundData() {name = "Water", position = new int[] { 1, 1 } },
+        //    new GroundData() {name = "Water", position = new int[] { 1, 2 } },
+        //    new GroundData() {name = "Water", position = new int[] { 1, 3 } },
+        //    new GroundData() {name = "Water", position = new int[] { 1, 3 } },
+        //    new GroundData() {name = "Hill", position = new int[] { 5, 3 } },
+        //};
+        //MapData data = new MapData()
+        //{
+        //    name = "水火既济",
+        //    version = 1,
+        //    size = new int[] { 10, 10 },
+        //    ground = groundList,
+        //    unit = unitList,
+        //};
+        //Debug.Log(JsonUtility.ToJson(data));
 
     }
 
