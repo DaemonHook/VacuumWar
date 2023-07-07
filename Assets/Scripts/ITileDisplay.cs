@@ -12,4 +12,5 @@ public interface ITileDisplay
     void BindController(TileController controller);
 
     void Init(Vector2Int position);
+
 }

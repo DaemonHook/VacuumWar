@@ -16,7 +16,7 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
 
     // 选择框
     public GameObject selectedGO;
-    
+
     public GameObject tileColorGo;
 
     #region 瓦片颜色定义
@@ -39,33 +39,36 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
         selectedGO.SetActive(false);
     }
 
+
     private void Awake()
     {
         selectedGO.SetActive(false);
-        
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        if (groundColors.Length != 0)
+        GameObject go = null;
+        GroundLayer.instance.groundGODict.TryGetValue(controller.logicPosition, out go);
+        int h = go ? go.GetComponent<GroundController>().height : 0;
+        if (h < 0)
         {
-            //int curCount = tolCount % groundColors.Length;
-            //tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[UnityEngine.Random.Range(0, groundColors.Length)];
-            ////Debug.Log($"color is {groundColors[curCount]}");
-            //tolCount++;
+            tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[0];
+        }
+        else if (h == 0)
+        {
+            tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[1];
+        }
+        else
+        {
+            tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[2];
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-    }
-
-    public void Init(Vector2Int worldPosition, Action actionOnClicked)
-    {
-        //this.worldPosition = worldPosition;
-        //this.actionOnClicked = actionOnClicked;
     }
 
 
@@ -94,7 +97,8 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
 
     public void Init(Vector2Int position)
     {
-        transform.position = new Vector3(position.x, position.y, 0);
+        //transform.position = new Vector3(position.x, position.y, 0);
+        InterfaceManager.instance.SetGOPosition(gameObject, position);
     }
 
     public void OnPointerDown(PointerEventData eventData)

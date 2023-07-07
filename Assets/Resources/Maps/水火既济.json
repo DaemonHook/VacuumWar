@@ -2,8 +2,8 @@
     "version": 1,
     "name": "水火既济",
     "size": [
-        10,
-        10
+        15,
+        8
     ],
     "ground": [
         {
@@ -31,7 +31,7 @@
             "name": "Water",
             "position": [
                 1,
-                3
+                4
             ]
         },
         {

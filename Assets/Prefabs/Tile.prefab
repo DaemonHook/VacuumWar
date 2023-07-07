@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   height: 0
-  worldPosition: {x: 9, y: 9}
+  logicPosition: {x: 0, y: 0}
 --- !u!114 &657169699479536031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,7 +250,8 @@ MonoBehaviour:
   tileColorGo: {fileID: 5792845878173984724}
   groundColors:
   - {r: 0.46666667, g: 0.58431375, b: 0.3372549, a: 1}
-  - {r: 0.92156863, g: 0.9254902, b: 0.8156863, a: 1}
+  - {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 1}
+  - {r: 0.3529412, g: 0.32941177, b: 0.29411766, a: 1}
   canceledColor: {r: 0, g: 0, b: 0, a: 0}
   canMoveColor: {r: 0, g: 0, b: 0, a: 0}
   cannotMoveColor: {r: 0, g: 0, b: 0, a: 0}
@@ -412,7 +413,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.92156863, g: 0.9254902, b: 0.8156863, a: 0}
   m_FlipX: 0

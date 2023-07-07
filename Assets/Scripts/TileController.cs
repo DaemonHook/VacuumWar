@@ -15,27 +15,27 @@ public class TileController : MonoBehaviour
 {
     public int height;
 
-    public Vector2Int worldPosition;
+    public Vector2Int logicPosition;
 
     private ITileDisplay tileDisplay;
 
     public void Init(Vector2Int position)
     {
         tileDisplay = GetComponent<ITileDisplay>();
-        worldPosition = position;
+        logicPosition = position;
         tileDisplay.Init(position);
         tileDisplay.BindController(this);
     }
 
     public void Select()
     {
-        Debug.Log($"Selected {worldPosition}");
+        Debug.Log($"Selected {logicPosition}");
         tileDisplay.TriggerSelectedMode(true);
     }
 
     public void UnSelect()
     {
-        Debug.Log($"UnSelected {worldPosition}");
+        Debug.Log($"UnSelected {logicPosition}");
         tileDisplay.TriggerSelectedMode(false);
     }
 

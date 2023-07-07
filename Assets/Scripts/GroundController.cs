@@ -12,9 +12,15 @@ public class GroundController : MonoBehaviour
 	// 地形高度
 	public int height;
 
+	private Vector2Int logicPosition;
+
+	private IGroundDisplay display;
+
 	public void Init(Vector2Int position)
 	{
-		
+		display = GetComponent<IGroundDisplay>();
+		logicPosition = position;
+		display.SetPosition(logicPosition);
 	}
 
 	// Use this for initialization

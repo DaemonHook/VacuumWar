@@ -12,11 +12,13 @@ public class TileLayer : MonoBehaviour
 {
     public GameObject tile;
 
+    public static TileLayer instance;
+
     public TileController[,] tileControllers;
 
     public void Init(Vector2Int size)
     {
-        Debug.Log("TileLayer Init!");
+        //Debug.Log("TileLayer Init!");
         while (transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
@@ -31,6 +33,11 @@ public class TileLayer : MonoBehaviour
                 go.GetComponent<TileController>().Init(new Vector2Int(i, j));
             }
         }
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     // Start is called before the first frame update

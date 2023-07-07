@@ -72,6 +72,6 @@ public class CameraMove : MonoBehaviour
         leftDown = new Vector2Int(0, 0);
         upRight = new Vector2Int(mapSize.x, mapSize.y);
         //Debug.Log($"leftDown: {leftDown}, upRight: {upRight}");
-        transform.position = new Vector3(originPos.x, originPos.y, -10.0f);
+        transform.position = new Vector3(originPos.x - 0.5f, originPos.y - 0.5f, -10.0f);
     }
 }

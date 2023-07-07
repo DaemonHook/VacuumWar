@@ -13,7 +13,7 @@ public class InterfaceManager : MonoBehaviour
 {
     public static InterfaceManager instance;
 
-    #region 实现功能的模块
+    #region 功能模块
     public CameraMove cameraMove;
     #endregion
 
@@ -30,7 +30,7 @@ public class InterfaceManager : MonoBehaviour
 
     // 当前选中的tile
     private TileController curSelected;
-    
+
     #endregion
 
     public void Init()
@@ -40,9 +40,8 @@ public class InterfaceManager : MonoBehaviour
 
     public void InitCamera()
     {
-        cameraMove.Init(GameManager.instance.mapSize,
-            new Vector2Int(
-                GameManager.instance.mapSize.x / 2, GameManager.instance.mapSize.y / 2));
+        cameraMove.Init(MapManager.instance.mapSize,
+            new Vector2Int(MapManager.instance.mapSize.x / 2, MapManager.instance.mapSize.y / 2));
     }
 
     #region 设置交互状态
@@ -81,7 +80,7 @@ public class InterfaceManager : MonoBehaviour
         }
         clickedTile.Select();
         curSelected = clickedTile;
-        
+
     }
 
     /// <summary>
@@ -92,6 +91,16 @@ public class InterfaceManager : MonoBehaviour
     public Vector3 GetActualPosition(Vector2Int logicPosition)
     {
         return new Vector3(logicPosition.x, logicPosition.y, 0);
+    }
+
+    /// <summary>
+    /// 根据逻辑位置设置物体的实际位置
+    /// </summary>
+    /// <param name="go"></param>
+    /// <param name="logicPosition"></param>
+    public void SetGOPosition(GameObject go, Vector2Int logicPosition)
+    {
+        go.transform.position = new Vector3(logicPosition.x, logicPosition.y, 0);
     }
 
     public void ShowActions(TileController tileController)
