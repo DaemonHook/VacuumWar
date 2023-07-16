@@ -2,10 +2,14 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class TwoDUnit : MonoBehaviour, IUnitDisplay
 {
     private bool idle = true;
+
+    public Slider HPSlider;
 
     public bool IsIdle()
     {
@@ -18,7 +22,16 @@ public class TwoDUnit : MonoBehaviour, IUnitDisplay
         transform.DOMove(
             InterfaceManager.instance.GetActualPosition(position),
             InterfaceManager.instance.moveDuration).OnComplete(() => { idle = true; });
+    }
 
+    public void RefreshStatus(UnitStatus status)
+    {
+        HPSlider.value = (float)status.hitpoint / status.maxHitpoint;
+    }
+
+    public void SetPosition(Vector2Int position)
+    {
+        transform.position = new Vector3(position.x, position.y, 0);
     }
 
     public void ShowAttackEffect()

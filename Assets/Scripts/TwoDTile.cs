@@ -19,10 +19,11 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
 
     public GameObject tileColorGo;
 
+    public GameObject maskGO;
     #region 瓦片颜色定义
     public Color[] groundColors;
 
-    public Color canceledColor, canMoveColor, cannotMoveColor, attackable, buildAble;
+    public Color canMoveColor, cannotMoveColor, attackableColor, buildAbleColor;
 
     private static int tolCount = 0;
     #endregion
@@ -43,7 +44,6 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
     private void Awake()
     {
         selectedGO.SetActive(false);
-
     }
 
     // Start is called before the first frame update
@@ -84,38 +84,48 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
         }
     }
 
-    public void TriggerMoveStatusMode(MoveStatus moveStatus)
+    public void SwitchMoveStatus(MoveStatus moveStatus)
     {
-        throw new NotImplementedException();
+        maskGO.SetActive(true);
+        switch (moveStatus)
+        {
+            case MoveStatus.CANCELED:
+                maskGO.SetActive(false); break;
+            case MoveStatus.CANMOVE:
+                maskGO.GetComponent<SpriteRenderer>().color = canMoveColor; break;
+            case MoveStatus.CANNOTMOVE:
+                maskGO.GetComponent<SpriteRenderer>().color = cannotMoveColor; break;
+            case MoveStatus.ATTACKABLE:
+                maskGO.GetComponent<SpriteRenderer>().color = attackableColor; break;
+            case MoveStatus.BUILDABLE:
+                maskGO.GetComponent<SpriteRenderer>().color = buildAbleColor; break;
+            default: break;
+
+        }
     }
 
     public void BindController(TileController controller)
     {
         this.controller = controller;
-        //Debug.Log($"controller is {upperController}");
     }
 
     public void Init(Vector2Int position)
     {
-        //transform.position = new Vector3(position.x, position.y, 0);
         InterfaceManager.instance.SetGOPosition(gameObject, position);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        //Debug.Log($"Pointer down: {eventData}");
         timeCounter = Time.time;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        //Debug.Log($"Pointer up: {eventData}");
         float timeSpent = Time.time - timeCounter;
         if (timeCounter > 0.0f && timeSpent > InterfaceManager.instance.clickSensitivity
             && InterfaceManager.instance.inDrag == false)
         {
             controller.OnClicked();
-            //actionOnClicked();
         }
     }
 }

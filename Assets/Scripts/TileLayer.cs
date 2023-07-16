@@ -14,7 +14,7 @@ public class TileLayer : MonoBehaviour
 
     public static TileLayer instance;
 
-    public TileController[,] tileControllers;
+    public TileController[,] tiles;
 
     public void Init(Vector2Int size)
     {
@@ -23,16 +23,35 @@ public class TileLayer : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(0).gameObject);
         }
-        tileControllers = new TileController[size.x, size.y];
+        tiles = new TileController[size.x, size.y];
         for (int i = 0; i < size.x; i++)
         {
             for (int j = 0; j < size.y; j++)
             {
-                //Debug.Log($"Init Tile at {i}, {j}");
                 var go = Instantiate(tile, transform);
-                go.GetComponent<TileController>().Init(new Vector2Int(i, j));
+                var controller = go.GetComponent<TileController>();
+                controller.Init(new Vector2Int(i, j));
+                tiles[i, j] = controller;
             }
         }
+    }
+
+    public void BindUnit(Vector2Int position, UnitController controller)
+    {
+        Debug.Log($"Bind {controller.status.name} to {position}");
+        tiles[position.x, position.y].BindUnit(controller);
+    }
+
+    public void UnbindUnit(Vector2Int position)
+    {
+        tiles[position.x, position.y] = null;
+    }
+
+    public void MoveUnit(Vector2Int oldPosition, Vector2Int newPosition)
+    {
+        var unit = tiles[oldPosition.x, oldPosition.y].BindedUnit;
+        tiles[oldPosition.x, oldPosition.y].UnbindUnit();
+        tiles[newPosition.x, newPosition.y].BindUnit(unit);
     }
 
     private void Awake()

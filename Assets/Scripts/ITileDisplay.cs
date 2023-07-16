@@ -7,7 +7,7 @@ public interface ITileDisplay
     // 进入/退出选中模式
     void TriggerSelectedMode(bool status);
     // 设置移动模式
-    void TriggerMoveStatusMode(MoveStatus moveStatus);
+    void SwitchMoveStatus(MoveStatus moveStatus);
     // 绑定瓦片控制器
     void BindController(TileController controller);
 

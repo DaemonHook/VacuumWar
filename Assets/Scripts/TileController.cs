@@ -19,6 +19,8 @@ public class TileController : MonoBehaviour
 
     private ITileDisplay tileDisplay;
 
+    public UnitController BindedUnit { get; private set; }
+
     public void Init(Vector2Int position)
     {
         tileDisplay = GetComponent<ITileDisplay>();
@@ -29,7 +31,8 @@ public class TileController : MonoBehaviour
 
     public void Select()
     {
-        Debug.Log($"Selected {logicPosition}");
+        string unit = BindedUnit == null ? "null" : BindedUnit.name;
+        Debug.Log($"Selected {logicPosition} unit: {unit}");
         tileDisplay.TriggerSelectedMode(true);
     }
 
@@ -44,6 +47,15 @@ public class TileController : MonoBehaviour
         InterfaceManager.instance.TileClicked(this);
     }
 
+    public void BindUnit(UnitController unit)
+    {
+        BindedUnit = unit;
+    }
+
+    public void UnbindUnit()
+    {
+        BindedUnit = null;
+    }
 
     private void Awake()
     {

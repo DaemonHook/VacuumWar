@@ -33,6 +33,13 @@ public class MapManager : MonoBehaviour
                 new Vector2Int(groundData.position[0], groundData.position[1]));
         }
         TileLayer.instance.Init(mapSize);
+
+        foreach (var unitData in curMapData.unit)
+        {
+            var pos = new Vector2Int(unitData.position[0], unitData.position[1]);
+            var controller = UnitLayer.instance.AddUnit(unitData.name, pos);
+            TileLayer.instance.BindUnit(pos, controller);
+        }
     }
 
     private void Awake()

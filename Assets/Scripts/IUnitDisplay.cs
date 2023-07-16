@@ -10,9 +10,14 @@ public interface IUnitDisplay
 {
     // 是否空闲
     bool IsIdle();
+
+    void SetPosition(Vector2Int position);
+
     // 移动至地点（逻辑）
     void MoveTo(Vector2Int position);
 
     void ShowAttackEffect();
-    //void 
+    
+    // 刷新状态显示
+    void RefreshStatus(UnitStatus status);
 }

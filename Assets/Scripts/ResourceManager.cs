@@ -44,7 +44,7 @@ public class ResourceManager : MonoBehaviour
         {
             if (unit.GetComponent<UnitController>() != null)
             {
-                var unitName = unit.GetComponent<UnitController>().unitName.ToLower();
+                var unitName = unit.GetComponent<UnitController>().name.ToLower();
                 unitCache[unitName] = unit;
             }
         }
