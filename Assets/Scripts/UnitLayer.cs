@@ -30,7 +30,7 @@ public class UnitLayer : MonoBehaviour
     public void RemoveUnit(UnitController controller)
     {
         units.Remove(controller);
-        pos2unit[controller.position].Remove(controller);
+        pos2unit[controller.Position].Remove(controller);
         Destroy(controller.gameObject);
     }
 

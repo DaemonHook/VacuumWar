@@ -248,15 +248,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedGO: {fileID: 1028448084418968801}
   tileColorGo: {fileID: 5792845878173984724}
+  maskGO: {fileID: 0}
   groundColors:
   - {r: 0.63138884, g: 0.735849, b: 0.5164827, a: 1}
   - {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 1}
   - {r: 0.5283019, g: 0.4832467, b: 0.41566396, a: 1}
-  canceledColor: {r: 0, g: 0, b: 0, a: 0}
-  canMoveColor: {r: 0, g: 0, b: 0, a: 0}
-  cannotMoveColor: {r: 0, g: 0, b: 0, a: 0}
-  attackable: {r: 0, g: 0, b: 0, a: 0}
-  buildAble: {r: 0, g: 0, b: 0, a: 0}
+  canMoveColor: {r: 0.4437344, g: 0.79973346, b: 0.9150943, a: 0.6784314}
+  cannotMoveColor: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 0.6784314}
+  attackableColor: {r: 0.990566, g: 0.40557137, b: 0.4344597, a: 0.6392157}
+  buildAbleColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &4445361162915651368
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.4447944, g: 0.43784267, b: 0.46226418, a: 0.6784314}
+  m_Color: {r: 0.9150943, g: 0.3373357, b: 0.3315058, a: 0.6784314}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

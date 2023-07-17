@@ -89,7 +89,7 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
         maskGO.SetActive(true);
         switch (moveStatus)
         {
-            case MoveStatus.CANCELED:
+            case MoveStatus.None:
                 maskGO.SetActive(false); break;
             case MoveStatus.CANMOVE:
                 maskGO.GetComponent<SpriteRenderer>().color = canMoveColor; break;

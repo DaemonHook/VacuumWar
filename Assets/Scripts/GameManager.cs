@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    //public Vector2Int mapSize;
     public string mapName;
 
     public void Init()
@@ -20,6 +19,11 @@ public class GameManager : MonoBehaviour
         MapManager.instance.InitMap(mapName);
         InterfaceManager.instance.Init();
     }
+
+    #region 全局服务
+
+
+    #endregion
 
     private void Awake()
     {

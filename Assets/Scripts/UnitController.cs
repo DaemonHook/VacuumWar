@@ -5,6 +5,7 @@
  */
 
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UnitController : MonoBehaviour
@@ -19,19 +20,53 @@ public class UnitController : MonoBehaviour
 
     public int team;
 
-    public UnitStatus status { get; private set; }
+    public UnitStatus Status { get; private set; }
 
-    public Vector2Int position { get; private set; }
+    public Vector2Int Position { get; private set; }
+
+    // 这回合能否再次进行移动
+    public bool CanMove { get; private set; }
+
+    // 本回合所能影响到的最远范围（目前版本为移动点数+射程）
+    public int InfluceRange
+    {
+        get
+        {
+            return Status.maxMovePoint + Status.range;
+        }
+    }
 
     public void Init(Vector2Int position)
     {
         display.SetPosition(position);
-        display.RefreshStatus(status);
+        display.RefreshStatus(Status);
+        CanMove = true;
     }
+
+    #region 
+
+    /// <summary>
+    /// 是否可以移动至瓦片
+    /// </summary>
+    /// <param name="tile">目标瓦片</param>
+    public bool CanMoveTo(TileController tile)
+    {
+        if (CanMove &&
+            tile.BindedUnit == null &&
+            tile.logicPosition != Position &&
+            Util.ManhattanDistance(tile.logicPosition, Position) < Status.movePoint)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    #endregion
+
 
     private void Awake()
     {
-        status = new UnitStatus(unitName, maxHitpoint, maxMovePoint, damage, range);
+        Status = new UnitStatus(unitName, maxHitpoint, maxMovePoint, damage, range);
         display = GetComponent<IUnitDisplay>();
     }
 

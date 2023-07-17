@@ -10,22 +10,25 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace DHFSM
 {
     public class State<Event>
     {
+        public FinateStateMachine<Event> fsm;
         public Action onUpdate;
         public Action onEnter;
         public Action onExit;
         public Action<Event> onEvent;
 
-        public bool Done { get; private set; }
-        public State<Event> NextState { get; private set; }
+        // 状态存储
+        public Dictionary<string, object> dict = new Dictionary<string, object>();
 
-        public State(Action onUpdate = null, Action onEnter = null,
+        public State(FinateStateMachine<Event> fsm, Action onUpdate = null, Action onEnter = null,
             Action onExit = null, Action<Event> eventHandler = null)
         {
+            this.fsm = fsm;
             this.onUpdate = onUpdate;
             this.onEnter = onEnter;
             this.onExit = onExit;
@@ -34,7 +37,6 @@ namespace DHFSM
 
         public void Enter()
         {
-            Done = false;
             onEnter?.Invoke();
         }
 
@@ -53,10 +55,13 @@ namespace DHFSM
             onEvent?.Invoke(e);
         }
 
+        /// <summary>
+        /// 转换状态
+        /// </summary>
+        /// <param name="to"></param>
         public void Yield(State<Event> to)
         {
-            Done = true;
-            NextState = to;
+            
         }
     }
 
@@ -64,22 +69,25 @@ namespace DHFSM
     {
         protected State<Event> mCurState;
 
+        public FinateStateMachine(State<Event> initialState)
+        {
+            mCurState = initialState;
+            initialState.Enter();
+        }
+
         public void GetEvent(Event e)
         {
             mCurState?.GetEvent(e);
         }
-
-        public void Update()
+        
+        public void SwitchState(State<Event> curState)
         {
-            if (mCurState != null)
+            if (curState != this.mCurState)
             {
-                if (mCurState.Done)
-                {
-                    mCurState = mCurState.NextState;
-                }
-                else mCurState.Update();
+                Debug.LogError($"GetYield: 当前状态错误!");
             }
+            curState.Exit();
+            mCurState = curState;
         }
-
     }
 }

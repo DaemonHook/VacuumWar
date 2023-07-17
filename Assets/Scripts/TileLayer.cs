@@ -4,6 +4,7 @@
  * feature: 瓦片层逻辑控制
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,9 +37,11 @@ public class TileLayer : MonoBehaviour
         }
     }
 
+    #region 服务
+
     public void BindUnit(Vector2Int position, UnitController controller)
     {
-        Debug.Log($"Bind {controller.status.name} to {position}");
+        Debug.Log($"Bind {controller.Status.name} to {position}");
         tiles[position.x, position.y].BindUnit(controller);
     }
 
@@ -53,6 +56,34 @@ public class TileLayer : MonoBehaviour
         tiles[oldPosition.x, oldPosition.y].UnbindUnit();
         tiles[newPosition.x, newPosition.y].BindUnit(unit);
     }
+
+    #endregion
+
+    #region 服务接口
+
+    /// <summary>
+    /// 扫描一定范围内所有的tile（范围为正方形）
+    /// </summary>
+    /// <param name="center">中心</param>
+    /// <param name="hlen">半边长</param>
+    /// <param name="callback">回调</param>
+    public void ScanRange(Vector2Int center, int hlen, Action<TileController> callback)
+    {
+        for (int i = center.x - hlen; i <= center.x + hlen; i++)
+        {
+            for (int j = center.y - hlen; j <= center.y + hlen; j++)
+            {
+                if (0 <= i && i < tiles.GetLength(0) && 0 <= j && j < tiles.GetLength(1))
+                {
+                    callback(tiles[i, j]);
+                }
+            }
+        }
+    }
+
+    
+
+    #endregion
 
     private void Awake()
     {

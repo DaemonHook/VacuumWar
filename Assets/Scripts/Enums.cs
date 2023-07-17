@@ -17,7 +17,7 @@ public enum TerrainType
 // 移动状态
 public enum MoveStatus
 {
-    CANCELED,       // 不显示
+    None,           // 无状态
     CANMOVE,        // 可移动
     CANNOTMOVE,     // 不可移动
     ATTACKABLE,     // 可攻击
