@@ -10,6 +10,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 namespace DHFSM
@@ -17,7 +18,6 @@ namespace DHFSM
     public class State<Event>
     {
         public FinateStateMachine<Event> fsm;
-        public Action onUpdate;
         public Action onEnter;
         public Action onExit;
         public Action<Event> onEvent;
@@ -25,14 +25,22 @@ namespace DHFSM
         // 状态存储
         public Dictionary<string, object> dict = new Dictionary<string, object>();
 
-        public State(FinateStateMachine<Event> fsm, Action onUpdate = null, Action onEnter = null,
-            Action onExit = null, Action<Event> eventHandler = null)
+        // 具体事件之后再绑定
+        public State()
+        {
+            //this.fsm = fsm;
+            //this.onUpdate = onUpdate;
+            //this.onEnter = onEnter;
+            //this.onExit = onExit;
+            //this.onEvent = eventHandler;
+        }
+
+        public void Init(FinateStateMachine<Event> fsm, Action onEnter, Action onExit, Action<Event> onEvent)
         {
             this.fsm = fsm;
-            this.onUpdate = onUpdate;
             this.onEnter = onEnter;
             this.onExit = onExit;
-            this.onEvent = eventHandler;
+            this.onEvent = onEvent;
         }
 
         public void Enter()
@@ -43,11 +51,6 @@ namespace DHFSM
         public void Exit()
         {
             onExit?.Invoke();
-        }
-
-        public void Update()
-        {
-            onUpdate?.Invoke();
         }
 
         public void GetEvent(Event e)
@@ -61,15 +64,16 @@ namespace DHFSM
         /// <param name="to"></param>
         public void Yield(State<Event> to)
         {
-            
+            Debug.Log($"fsm is :{fsm}");
+            fsm.SwitchState(to);
         }
     }
 
     public class FinateStateMachine<Event>
     {
         protected State<Event> mCurState;
-
-        public FinateStateMachine(State<Event> initialState)
+        
+        public void SetInitialState(State<Event> initialState)
         {
             mCurState = initialState;
             initialState.Enter();
@@ -79,15 +83,12 @@ namespace DHFSM
         {
             mCurState?.GetEvent(e);
         }
-        
-        public void SwitchState(State<Event> curState)
+
+        public void SwitchState(State<Event> nextState)
         {
-            if (curState != this.mCurState)
-            {
-                Debug.LogError($"GetYield: 当前状态错误!");
-            }
-            curState.Exit();
-            mCurState = curState;
+            mCurState.Exit();
+            mCurState = nextState;
+            nextState.Enter();
         }
     }
 }

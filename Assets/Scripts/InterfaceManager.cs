@@ -8,9 +8,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.Design.Serialization;
+using System.Security;
 using Unity.VisualScripting;
-using UnityEditor.Tilemaps;
-using UnityEditor.UI;
+//using UnityEditor.Tilemaps;
+//using UnityEditor.UI;
 using UnityEngine;
 
 public class InterfaceManager : MonoBehaviour
@@ -87,7 +88,7 @@ public class InterfaceManager : MonoBehaviour
         }
         clickedTile.Select();
         curClickedTile = clickedTile;
-        curState.GetEvent(BoardEvent.TileClicked);
+        fsm.GetEvent(BoardEvent.TileClicked);
     }
 
     #region 棋盘交互状态机
@@ -99,29 +100,34 @@ public class InterfaceManager : MonoBehaviour
     }
 
     // 三种状态：空闲，选中单位，忙碌
-    DHFSM.State<BoardEvent> idle, selected, busying;
-    DHFSM.FinateStateMachine<BoardEvent> fsm;
+    DHFSM.State<BoardEvent>
+        idle = new DHFSM.State<BoardEvent>(),
+        selected = new DHFSM.State<BoardEvent>(),
+        busying = new DHFSM.State<BoardEvent>();
+    DHFSM.FinateStateMachine<BoardEvent> fsm = new DHFSM.FinateStateMachine<BoardEvent>();
 
-    DHFSM.State<BoardEvent> curState;
+    //HashSet<Vector2Int> activeTiles = new HashSet<Vector2Int>();
+    Dictionary<Vector2Int, MoveStatus> activeTiles = new Dictionary<Vector2Int, MoveStatus>();
+    //Dictionary<Vector2Int, Action> activeActions = new Dictionary<Vector2Int, Action>();
 
     private void InitFSM()
     {
-        idle = new DHFSM.State<BoardEvent>(
-            fsm: this.fsm,
-            onUpdate: null,
+        idle.Init(
+            fsm: fsm,
             onEnter: () =>
                 {
+                    //Debug.Log("uicanvas hid!");
                     uiCanvas.HideUnitStatus();
                 },
             onExit: null,
-            eventHandler: (BoardEvent e) =>
+            onEvent: (BoardEvent e) =>
             {
                 switch (e)
                 {
                     case BoardEvent.TileClicked:
+                        Debug.Log("idle: TileClicked!");
                         if (curClickedTile.BindedUnit != null)
                         {
-                            //uiCanvas.ShowUnitStatus(curClickedTile.BindedUnit.Status);
                             idle.Yield(selected);
                         }
                         break;
@@ -131,21 +137,25 @@ public class InterfaceManager : MonoBehaviour
         );
 
         // 初始状态为idle
-        fsm = new DHFSM.FinateStateMachine<BoardEvent>(idle);
-
+        fsm.SetInitialState(idle);
         // 进入时保证curClickedTile已刷新，且curClickedTile.BindedUnit != null
-        selected = new DHFSM.State<BoardEvent>(
-            this.fsm,
-            null,
+        selected.Init(
+            fsm,
             () =>
                     {
+                        //Debug.Log("selected Entered!");
                         selected.dict["curUnit"] = curClickedTile.BindedUnit;
                         uiCanvas.ShowUnitStatus(curClickedTile.BindedUnit.Status);
+                        RefreshActiveActions(curClickedTile);
+
+                        foreach (var pos in activeTiles.Keys)
+                        {
+                            Debug.Log($"activeTile: {pos}");
+                        }
                     },
             () =>
                     {
                         uiCanvas.HideUnitStatus();
-                        
                         selected.dict["curUnit"] = null;
                     },
             (BoardEvent e) =>
@@ -153,7 +163,14 @@ public class InterfaceManager : MonoBehaviour
                         switch (e)
                         {
                             case BoardEvent.TileClicked:
-                                
+                                if (curClickedTile.BindedUnit != null)
+                                {
+                                    selected.Yield(selected);
+                                }
+                                else
+                                {
+                                    selected.Yield(idle);
+                                }
                                 break;
                             default: break;
                         }
@@ -185,28 +202,40 @@ public class InterfaceManager : MonoBehaviour
         go.transform.position = new Vector3(logicPosition.x, logicPosition.y, 0);
     }
 
-    public void ShowActions(TileController tile)
+    /// <summary>
+    /// 刷新当前单位的行动
+    /// </summary>
+    /// <param name="tile"></param>
+    public void RefreshActiveActions(TileController tile)
     {
         if (tile.BindedUnit == null) { return; }
         UnitController unit = tile.BindedUnit;
-
-        Action<TileController> showAction = (tile) =>
+        activeTiles.Clear();
+        Action<TileController> refreshAction = (tile) =>
         {
             if (unit.CanMoveTo(tile))
             {
-                tile.ShowMoveStatus(MoveStatus.CANMOVE);
+                activeTiles.Add(tile.logicPosition, MoveStatus.CANMOVE);
             }
             // TODO 增加攻击、建造操作
-        };
+            else
+            {
 
-        TileLayer.instance.ScanRange(tile.logicPosition, unit.InfluceRange, )
+            }
+        };
+        TileLayer.instance.ScanRange(tile.logicPosition, unit.InfluceRange, refreshAction);
+    }
+
+    public void ShowActiveActions()
+    {
+        foreach (var kvp in activeTiles)
+        {
+
+        }
     }
 
     public void HideMoveActions(TileController tile)
     {
-        if (tile.BindedUnit == null ) { return; }
-        UnitController unit = tile.BindedUnit;
-
     }
 
     #endregion

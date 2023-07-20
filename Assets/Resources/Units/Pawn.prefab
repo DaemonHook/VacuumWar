@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c36b31d7f3883241be044af3295b1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: pawn
+  unitName: "\u5C0F\u5175"
   damage: 2
   maxHitpoint: 4
   maxMovePoint: 2

@@ -61,7 +61,7 @@ public class TileController : MonoBehaviour
     /// 显示移动状态（如可移动、被阻挡等）
     /// </summary>
     /// <param name="status"></param>
-    public void ShowMoveStatus(MoveStatus status)
+    public void SwitchStatus(MoveStatus status)
     {
         tileDisplay.SwitchMoveStatus(status);
     }

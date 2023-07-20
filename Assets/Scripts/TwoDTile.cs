@@ -21,11 +21,11 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
 
     public GameObject maskGO;
     #region 瓦片颜色定义
-    public Color[] groundColors;
+    //public Color[] groundColors;
 
-    public Color canMoveColor, cannotMoveColor, attackableColor, buildAbleColor;
+    public Color defaultMaskColor, canMoveColor, cannotMoveColor, attackableColor, buildAbleColor;
 
-    private static int tolCount = 0;
+    //private static int tolCount = 0;
     #endregion
 
     float timeCounter;
@@ -51,19 +51,21 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
     {
         GameObject go = null;
         GroundLayer.instance.groundGODict.TryGetValue(controller.logicPosition, out go);
-        int h = go ? go.GetComponent<GroundController>().height : 0;
-        if (h < 0)
-        {
-            tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[0];
-        }
-        else if (h == 0)
-        {
-            tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[1];
-        }
-        else
-        {
-            tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[2];
-        }
+        //maskGO.GetComponent<SpriteRenderer>().color = defaultMaskColor;
+        maskGO.SetActive(false);
+        //int h = go ? go.GetComponent<GroundController>().height : 0;
+        //if (h < 0)
+        //{
+        //    tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[0];
+        //}
+        //else if (h == 0)
+        //{
+        //    tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[1];
+        //}
+        //else
+        //{
+        //    tileColorGo.GetComponent<SpriteRenderer>().color = groundColors[2];
+        //}
     }
 
     // Update is called once per frame

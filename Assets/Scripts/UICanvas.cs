@@ -32,7 +32,7 @@ public class UICanvas : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ShowUnitStatus(new UnitStatus("»ð·ä", 10086, 1024, 9876, 321));
+        //ShowUnitStatus(new UnitStatus("»ð·ä", 10086, 1024, 9876, 321));
     }
 
     // Update is called once per frame

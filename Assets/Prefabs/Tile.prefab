@@ -112,9 +112,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1458787324058551058}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: 9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8562401863794704314}
   - {fileID: 8693562529737528308}
@@ -248,11 +248,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedGO: {fileID: 1028448084418968801}
   tileColorGo: {fileID: 5792845878173984724}
-  maskGO: {fileID: 0}
-  groundColors:
-  - {r: 0.63138884, g: 0.735849, b: 0.5164827, a: 1}
-  - {r: 0.88235295, g: 0.88235295, b: 0.88235295, a: 1}
-  - {r: 0.5283019, g: 0.4832467, b: 0.41566396, a: 1}
+  maskGO: {fileID: 4445361162915651368}
+  defaultMaskColor: {r: 0, g: 0, b: 0, a: 0}
   canMoveColor: {r: 0.4437344, g: 0.79973346, b: 0.9150943, a: 0.6784314}
   cannotMoveColor: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 0.6784314}
   attackableColor: {r: 0.990566, g: 0.40557137, b: 0.4344597, a: 0.6392157}
@@ -329,9 +326,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.9150943, g: 0.3373357, b: 0.3315058, a: 0.6784314}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -415,7 +412,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.92156863, g: 0.9254902, b: 0.8156863, a: 0}
+  m_Color: {r: 0.92156863, g: 0.9254902, b: 0.8156863, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

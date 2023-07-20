@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c36b31d7f3883241be044af3295b1b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: queen
+  unitName: "\u7A7A\u5929\u519B"
   damage: 3
   maxHitpoint: 5
   maxMovePoint: 5
