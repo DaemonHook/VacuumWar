@@ -15,7 +15,7 @@ public class UICanvas : MonoBehaviour
 
     public void ShowUnitStatus(UnitStatus unitStatus)
     {
-        Debug.Log(unitStatus.ToString());
+        //Debug.Log(unitStatus.ToString());
         unitStatusName.text = unitStatus.name;
         unitStatusHP.text = unitStatus.hitpoint.ToString();
         unitStatusDamage.text = unitStatus.damage.ToString();

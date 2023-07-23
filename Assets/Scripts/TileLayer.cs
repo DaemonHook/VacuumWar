@@ -50,11 +50,21 @@ public class TileLayer : MonoBehaviour
         tiles[position.x, position.y] = null;
     }
 
-    public void MoveUnit(Vector2Int oldPosition, Vector2Int newPosition)
+    /// <summary>
+    /// 将单位绑定至新位置（不负责移动）
+    /// </summary>
+    /// <param name="oldPosition">旧位置</param>
+    /// <param name="newPosition">新位置</param>
+    public bool RebindUnit(Vector2Int oldPosition, Vector2Int newPosition)
     {
         var unit = tiles[oldPosition.x, oldPosition.y].BindedUnit;
+        if (unit == null)
+        {
+            return false;
+        }
         tiles[oldPosition.x, oldPosition.y].UnbindUnit();
         tiles[newPosition.x, newPosition.y].BindUnit(unit);
+        return true;
     }
 
     #endregion
@@ -69,6 +79,7 @@ public class TileLayer : MonoBehaviour
     /// <param name="callback">回调</param>
     public void ScanRange(Vector2Int center, int hlen, Action<TileController> callback)
     {
+        Debug.Log($"ScanRange: center: {center}, hlen: {hlen}");
         for (int i = center.x - hlen; i <= center.x + hlen; i++)
         {
             for (int j = center.y - hlen; j <= center.y + hlen; j++)
@@ -81,7 +92,7 @@ public class TileLayer : MonoBehaviour
         }
     }
 
-    
+
 
     #endregion
 

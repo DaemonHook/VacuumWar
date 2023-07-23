@@ -64,7 +64,6 @@ namespace DHFSM
         /// <param name="to"></param>
         public void Yield(State<Event> to)
         {
-            Debug.Log($"fsm is :{fsm}");
             fsm.SwitchState(to);
         }
     }

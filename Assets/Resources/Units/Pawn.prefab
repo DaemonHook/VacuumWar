@@ -248,7 +248,7 @@ MonoBehaviour:
   unitName: "\u5C0F\u5175"
   damage: 2
   maxHitpoint: 4
-  maxMovePoint: 2
+  maxMovePoint: 3
   range: 1
   team: 0
 --- !u!114 &3239891684493324505

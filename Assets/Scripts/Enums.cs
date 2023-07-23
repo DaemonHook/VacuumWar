@@ -17,7 +17,7 @@ public enum TerrainType
 // 移动状态
 public enum MoveStatus
 {
-    None,           // 无状态
+    NONE,           // 无状态
     CANMOVE,        // 可移动
     CANNOTMOVE,     // 不可移动
     ATTACKABLE,     // 可攻击
@@ -29,4 +29,11 @@ public enum UnitType
 {
     BUILDING,       // 建筑
     TROOP,          // 部队
+}
+
+
+public enum ActionType
+{
+    MOVE,         // 移动
+    ATTACK,         // 攻击
 }

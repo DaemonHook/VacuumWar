@@ -48,8 +48,8 @@ public class InterfaceManager : MonoBehaviour
 
     public void InitCamera()
     {
-        cameraMove.Init(MapManager.instance.mapSize,
-            new Vector2Int(MapManager.instance.mapSize.x / 2, MapManager.instance.mapSize.y / 2));
+        cameraMove.Init(DataManager.instance.mapSize,
+            new Vector2Int(DataManager.instance.mapSize.x / 2, DataManager.instance.mapSize.y / 2));
     }
 
     #region 设置交互状态
@@ -96,7 +96,8 @@ public class InterfaceManager : MonoBehaviour
     public enum BoardEvent
     {
         TileClicked,        // 某个瓦片被点击
-        AnimationDone       // 当前动画播放完成
+        ActionDone,         // 当前动作开始
+        ActionStart         // 当前动作完成
     }
 
     // 三种状态：空闲，选中单位，忙碌
@@ -147,15 +148,17 @@ public class InterfaceManager : MonoBehaviour
                         selected.dict["curUnit"] = curClickedTile.BindedUnit;
                         uiCanvas.ShowUnitStatus(curClickedTile.BindedUnit.Status);
                         RefreshActiveActions(curClickedTile);
-
-                        foreach (var pos in activeTiles.Keys)
-                        {
-                            Debug.Log($"activeTile: {pos}");
-                        }
+                        ShowActiveActions();
+                        //foreach (var pos in activeTiles.Keys)
+                        //{
+                        //    Debug.Log($"activeTile: {pos}");
+                        //}
                     },
             () =>
                     {
                         uiCanvas.HideUnitStatus();
+                        HideActiveActions();
+
                         selected.dict["curUnit"] = null;
                     },
             (BoardEvent e) =>
@@ -163,15 +166,27 @@ public class InterfaceManager : MonoBehaviour
                         switch (e)
                         {
                             case BoardEvent.TileClicked:
+
                                 if (curClickedTile.BindedUnit != null)
                                 {
-                                    selected.Yield(selected);
+                                    if ((object)curClickedTile.BindedUnit == selected.dict["curUnit"])
+                                    {
+                                        selected.Yield(idle);
+                                        break;
+                                    }
+                                    if (curClickedTile.BindedUnit.Idle)
+                                        selected.Yield(selected);
+                                }
+                                else if (activeTiles.ContainsKey(curClickedTile.logicPosition))
+                                {
+
                                 }
                                 else
                                 {
                                     selected.Yield(idle);
                                 }
                                 break;
+
                             default: break;
                         }
                     }
@@ -179,6 +194,7 @@ public class InterfaceManager : MonoBehaviour
 
 
     }
+
 
     #endregion
 
@@ -205,17 +221,23 @@ public class InterfaceManager : MonoBehaviour
     /// <summary>
     /// 刷新当前单位的行动
     /// </summary>
-    /// <param name="tile"></param>
-    public void RefreshActiveActions(TileController tile)
+    /// <param name="curTile"></param>
+    public void RefreshActiveActions(TileController curTile)
     {
-        if (tile.BindedUnit == null) { return; }
-        UnitController unit = tile.BindedUnit;
+        if (curTile.BindedUnit == null)
+        {
+            Debug.LogError($"RefreshActiveActions: null unit on curTile");
+            return;
+        }
+        UnitController unit = curTile.BindedUnit;
         activeTiles.Clear();
         Action<TileController> refreshAction = (tile) =>
         {
+            //Debug.Log($"Tile position: {tile.logicPosition}");
             if (unit.CanMoveTo(tile))
             {
                 activeTiles.Add(tile.logicPosition, MoveStatus.CANMOVE);
+                //Debug.Log($"{unit.unitName} can move to {tile.logicPosition}");
             }
             // TODO 增加攻击、建造操作
             else
@@ -223,19 +245,25 @@ public class InterfaceManager : MonoBehaviour
 
             }
         };
-        TileLayer.instance.ScanRange(tile.logicPosition, unit.InfluceRange, refreshAction);
+
+        TileLayer.instance.ScanRange(curTile.logicPosition, unit.InfluceRange, refreshAction);
     }
 
     public void ShowActiveActions()
     {
         foreach (var kvp in activeTiles)
         {
-
+            Debug.Log($"{kvp.Key} is {kvp.Value}");
+            TileLayer.instance.tiles[kvp.Key.x, kvp.Key.y].SwitchStatus(kvp.Value);
         }
     }
 
-    public void HideMoveActions(TileController tile)
+    public void HideActiveActions()
     {
+        foreach (var kvp in activeTiles)
+        {
+            TileLayer.instance.tiles[kvp.Key.x, kvp.Key.y].SwitchStatus(MoveStatus.NONE);
+        }
     }
 
     #endregion

@@ -8,9 +8,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class MapManager : MonoBehaviour
+public class DataManager : MonoBehaviour
 {
-    public static MapManager instance { get; private set; }
+    public static DataManager instance { get; private set; }
 
     public MapData curMapData { get; private set; }
 
