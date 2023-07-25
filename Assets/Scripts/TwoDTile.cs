@@ -124,7 +124,7 @@ public class TwoDTile : MonoBehaviour, ITileDisplay, IPointerDownHandler, IPoint
     {
         float timeSpent = Time.time - timeCounter;
         if (timeCounter > 0.0f && timeSpent > InterfaceManager.instance.clickSensitivity
-            && InterfaceManager.instance.inDrag == false)
+            && InterfaceManager.instance.InDrag == false)
         {
             controller.OnClicked();
         }

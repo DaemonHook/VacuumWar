@@ -20,4 +20,7 @@ public interface IUnitDisplay
     
     // 刷新状态显示
     void RefreshStatus(UnitStatus status);
+    
+    // 刷新可用性（当前是否可以行动）
+    void TriggerAvailability(bool availability);
 }

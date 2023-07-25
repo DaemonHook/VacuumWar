@@ -251,6 +251,7 @@ MonoBehaviour:
   maxMovePoint: 3
   range: 1
   team: 0
+  logicPosition: {x: 0, y: 0}
 --- !u!114 &3239891684493324505
 MonoBehaviour:
   m_ObjectHideFlags: 0

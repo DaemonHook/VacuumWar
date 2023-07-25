@@ -4,6 +4,7 @@
  * feature: 游戏逻辑控制
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -16,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     public string mapName;
 
-    public void Init()
+    private void Init()
     {
         DataManager.instance.InitMap(mapName);
         InterfaceManager.instance.Init();
@@ -30,22 +31,22 @@ public class GameManager : MonoBehaviour
         {
             case ActionType.MOVE:
                 Vector2Int target = (Vector2Int)param;
-                if (unit.CanMoveTo(target))
-                unit.DoAction(ActionType.MOVE, target);
-                break;
+                Debug.Log($"unit at {unit.logicPosition} try move to {target}");
+                return TryMoveUnit(unit, target);
             default: break;
         }
         return true;
     }
-
+    
     /// <summary>
     /// 移动单位
     /// </summary>
-    /// <param name="originPos">原位置</param>
+    /// <param name="unit">单位</param>
     /// <param name="newPos">新位置</param>
     /// <returns>若单位不存在则返回false</returns>
-    public bool MoveUnit(Vector2Int originPos, Vector2Int newPos)
+    private bool TryMoveUnit(UnitController unit, Vector2Int newPos)
     {
+        var originPos = unit.logicPosition;
         if (!UnitLayer.instance.unitDict.ContainsKey(originPos))
         {
             return false;
@@ -56,8 +57,35 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"MoveUnit: TileLayer no unit at {originPos}");
+            Debug.LogError($"MoveUnit: Rebind failed!");
+            return false;
         }
+        return true;
+    }
+
+    #endregion
+
+    #region 全局状态获取
+    
+    /// <summary>
+    /// 单位是否可以移动至目标瓦片
+    /// </summary>
+    /// <param name="unit">单位</param>
+    /// <param name="targetTile">目标瓦片</param>
+    public bool CanMoveTo(UnitController unit, TileController targetTile)
+    {
+        Vector2Int target = targetTile.logicPosition;
+        if (!unit.CanMoveTo(target))
+        {
+            return false;
+        }
+
+        if (UnitLayer.instance.unitDict.ContainsKey(target))
+        {
+            return false;
+        }
+        
+        //TODO: 增加地形逻辑
         return true;
     }
 

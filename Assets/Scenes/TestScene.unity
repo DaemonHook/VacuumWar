@@ -503,7 +503,7 @@ MonoBehaviour:
   cameraMove: {fileID: 519420033}
   uiCanvas: {fileID: 1940714899}
   clickSensitivity: 0
-  moveDuration: 0
+  moveDuration: 0.5
 --- !u!114 &182483011
 MonoBehaviour:
   m_ObjectHideFlags: 0

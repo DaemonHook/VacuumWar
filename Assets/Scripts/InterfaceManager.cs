@@ -34,10 +34,13 @@ public class InterfaceManager : MonoBehaviour
     #endregion
 
     #region 交互状态
-    public bool inDrag { get; private set; }
+    public bool InDrag { get; private set; }
 
-    // 当前选中的tile
+    // 当前点击的tile
     private TileController curClickedTile;
+    
+    // 当前选中的tile
+    private TileController curSelectedTile;
 
     #endregion
 
@@ -59,7 +62,7 @@ public class InterfaceManager : MonoBehaviour
     /// </summary>
     public void EnterDrag()
     {
-        inDrag = true;
+        InDrag = true;
     }
 
     /// <summary>
@@ -67,7 +70,7 @@ public class InterfaceManager : MonoBehaviour
     /// </summary>
     public void LeaveDrag()
     {
-        inDrag = false;
+        InDrag = false;
     }
 
     public void SetMapSize(Vector2Int size)
@@ -80,20 +83,26 @@ public class InterfaceManager : MonoBehaviour
 
     #region 交互功能
 
-    public void TileClicked(TileController clickedTile)
+    public void ClickTile(TileController clickedTile)
     {
-        if (curClickedTile != null)
-        {
-            curClickedTile.UnSelect();
-        }
-        clickedTile.Select();
         curClickedTile = clickedTile;
         fsm.GetEvent(BoardEvent.TileClicked);
     }
 
+    public void SelectTile(TileController selectedTile)
+    {
+        if (curSelectedTile != null)
+        {
+            curSelectedTile.UnSelect();
+        }
+
+        curSelectedTile = selectedTile;
+        curSelectedTile.Select();
+    }
+    
     #region 棋盘交互状态机
 
-    public enum BoardEvent
+    private enum BoardEvent
     {
         TileClicked,        // 某个瓦片被点击
         ActionDone,         // 当前动作开始
@@ -123,10 +132,12 @@ public class InterfaceManager : MonoBehaviour
             onExit: null,
             onEvent: (BoardEvent e) =>
             {
+                // 空闲时，若选中了单位则切换至选中模式
                 switch (e)
                 {
                     case BoardEvent.TileClicked:
                         Debug.Log("idle: TileClicked!");
+                        SelectTile(curClickedTile);
                         if (curClickedTile.BindedUnit != null)
                         {
                             idle.Yield(selected);
@@ -139,50 +150,74 @@ public class InterfaceManager : MonoBehaviour
 
         // 初始状态为idle
         fsm.SetInitialState(idle);
+        
+        // 选中模式
         // 进入时保证curClickedTile已刷新，且curClickedTile.BindedUnit != null
         selected.Init(
             fsm,
             () =>
                     {
-                        //Debug.Log("selected Entered!");
-                        selected.dict["curUnit"] = curClickedTile.BindedUnit;
-                        uiCanvas.ShowUnitStatus(curClickedTile.BindedUnit.Status);
-                        RefreshActiveActions(curClickedTile);
+                        // 进入选中模式时，显示单位信息、可行动作
+                        // 并且绑定当前单位
+                        selected.dict["curUnit"] = curSelectedTile.BindedUnit;
+                        uiCanvas.ShowUnitStatus(curSelectedTile.BindedUnit.Status);
+                        RefreshActiveActions(curSelectedTile);
                         ShowActiveActions();
-                        //foreach (var pos in activeTiles.Keys)
-                        //{
-                        //    Debug.Log($"activeTile: {pos}");
-                        //}
                     },
+            
             () =>
                     {
+                        // 退出选中模式时，隐藏单位信息、可行动作，解绑当前单位
                         uiCanvas.HideUnitStatus();
                         HideActiveActions();
-
                         selected.dict["curUnit"] = null;
                     },
+            
             (BoardEvent e) =>
                     {
                         switch (e)
                         {
                             case BoardEvent.TileClicked:
-
-                                if (curClickedTile.BindedUnit != null)
+                                // 发生点击事件时
+                                if (activeTiles.ContainsKey(curClickedTile.logicPosition))
                                 {
-                                    if ((object)curClickedTile.BindedUnit == selected.dict["curUnit"])
+                                    // 若点击了当前活跃瓦片
+                                    
+                                    //TODO: 添加可行的动作
+                                    switch (activeTiles[curClickedTile.logicPosition])
                                     {
-                                        selected.Yield(idle);
-                                        break;
+                                        
+                                        case MoveStatus.CANMOVE:
+                                            if (GameManager.instance.DoAction((UnitController)selected.dict["curUnit"],
+                                                    ActionType.MOVE, (object)curClickedTile.logicPosition))
+                                            {
+                                                // 确保单位已经重新绑定
+                                                SelectTile(curClickedTile);
+                                                selected.Yield(selected);
+                                            }
+                                            break;
+                                        default: break;
                                     }
-                                    if (curClickedTile.BindedUnit.Idle)
-                                        selected.Yield(selected);
                                 }
-                                else if (activeTiles.ContainsKey(curClickedTile.logicPosition))
+                                else if (curClickedTile.BindedUnit != null)
                                 {
-
+                                    // 若点击到单位
+                                    if (curClickedTile.BindedUnit == (UnitController)selected.dict["curUnit"])
+                                    {
+                                        // 若所点击的是当前已经选中的单位，则退出选中状态
+                                        selected.Yield(idle);
+                                    }
+                                    else if (curClickedTile.BindedUnit.Idle)
+                                    {
+                                        // 若点击了其他单位，则选中该单位
+                                        SelectTile(curClickedTile);
+                                        selected.Yield(selected);
+                                    }
                                 }
                                 else
                                 {
+                                    // 若点击了空地，退出选中状态
+                                    SelectTile(curClickedTile);
                                     selected.Yield(idle);
                                 }
                                 break;
@@ -190,6 +225,7 @@ public class InterfaceManager : MonoBehaviour
                             default: break;
                         }
                     }
+            
             );
 
 
@@ -233,16 +269,14 @@ public class InterfaceManager : MonoBehaviour
         activeTiles.Clear();
         Action<TileController> refreshAction = (tile) =>
         {
-            //Debug.Log($"Tile position: {tile.logicPosition}");
-            if (unit.CanMoveTo(tile))
+            if (GameManager.instance.CanMoveTo(unit, tile))
             {
+                // Debug.Log($"Unit at {unit.logicPosition} can move to {tile.logicPosition}");
                 activeTiles.Add(tile.logicPosition, MoveStatus.CANMOVE);
-                //Debug.Log($"{unit.unitName} can move to {tile.logicPosition}");
             }
-            // TODO 增加攻击、建造操作
             else
             {
-
+                //TODO 增加更多操作
             }
         };
 
@@ -253,7 +287,7 @@ public class InterfaceManager : MonoBehaviour
     {
         foreach (var kvp in activeTiles)
         {
-            Debug.Log($"{kvp.Key} is {kvp.Value}");
+            // Debug.Log($"{kvp.Key} is {kvp.Value}");
             TileLayer.instance.tiles[kvp.Key.x, kvp.Key.y].SwitchStatus(kvp.Value);
         }
     }
@@ -283,7 +317,7 @@ public class InterfaceManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inDrag && Input.GetMouseButtonDown(0))
+        if (!InDrag && Input.GetMouseButtonDown(0))
         {
             StartCoroutine(cameraMove.DragMoveCoroutine());
         }

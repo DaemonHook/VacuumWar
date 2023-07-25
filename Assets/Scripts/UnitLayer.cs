@@ -9,41 +9,42 @@ public class UnitLayer : MonoBehaviour
 
     public List<UnitController> units;
 
-    public Dictionary<Vector2Int, List<UnitController>> unitDict;
+    public Dictionary<Vector2Int, UnitController> unitDict;
 
-    public UnitController AddUnit(string name, Vector2Int position)
+    public UnitController AddUnit(string unitName, Vector2Int position)
     {
-        name = name.ToLower();
-        if (!unitDict.ContainsKey(position))
-        {
-            unitDict[position] = new List<UnitController>();
-        }
-        var go = ResourceManager.instance.GetUnitGO(name);
+        unitName = unitName.ToLower();
+        var go = ResourceManager.instance.GetUnitGO(unitName);
         var newUnit = Instantiate(go, transform);
         var newUnitController = newUnit.GetComponent<UnitController>();
         newUnitController.Init(position);
         units.Add(newUnitController);
-        unitDict[position].Add(newUnitController);
+        if (!unitDict.ContainsKey(position))
+        {
+            unitDict[position] = newUnitController;
+        }
         return newUnitController;
     }
 
-    public bool MoveUnit(Vector2Int oldPos, Vector2Int newPos)
+    public void MoveUnit(Vector2Int oldPos, Vector2Int newPos)
     {
         if (unitDict.ContainsKey(oldPos) && !unitDict.ContainsKey(newPos))
         {
-            var unit = unitDict[oldPos];
+            UnitController unit = unitDict[oldPos];
             unitDict.Remove(oldPos);
             unitDict.Add(newPos, unit);
-            
-            return true;
+            unit.MoveSelf(newPos);
         }
-        return false;
+        else
+        {
+            Debug.LogError($"MoveUnit: Invalid move {oldPos} to {newPos}");
+        }
     }
 
     public void RemoveUnit(UnitController controller)
     {
         units.Remove(controller);
-        unitDict[controller.logicPosition].Remove(controller);
+        unitDict.Remove(controller.logicPosition);
         Destroy(controller.gameObject);
     }
 
@@ -51,7 +52,7 @@ public class UnitLayer : MonoBehaviour
     {
         instance = this;
         units = new List<UnitController>();
-        unitDict = new Dictionary<Vector2Int, List<UnitController>>();
+        unitDict = new Dictionary<Vector2Int, UnitController>();
         while (transform.childCount > 0)
         {
             DestroyImmediate(transform.GetChild(0).gameObject);

@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,8 +9,14 @@ using UnityEngine.UI;
 public class TwoDUnit : MonoBehaviour, IUnitDisplay
 {
     private bool idle = true;
+    
+    // 目前通过更改透明度显示可用状态
+    private static float normalAlpha = 1.0f,
+        unavailableAlpha = 0.7f;
 
     public Slider HPSlider;
+    
+    // public GameObject sprite;
 
     public bool IsIdle()
     {
@@ -29,6 +36,22 @@ public class TwoDUnit : MonoBehaviour, IUnitDisplay
         HPSlider.value = (float)status.hitpoint / status.maxHitpoint;
     }
 
+    public void TriggerAvailability(bool availability)
+    {
+        var sr = transform.Find("sprite").GetComponent<SpriteRenderer>();
+        var c = sr.color;
+        if (availability)
+        {
+            c.a = normalAlpha;
+            transform.Find("sprite").GetComponent<SpriteRenderer>().color = c;
+        }
+        else
+        {
+            c.a = unavailableAlpha;
+            transform.Find("sprite").GetComponent<SpriteRenderer>().color = c;
+        }
+    }
+
     public void SetPosition(Vector2Int position)
     {
         transform.position = new Vector3(position.x, position.y, 0);
@@ -36,13 +59,15 @@ public class TwoDUnit : MonoBehaviour, IUnitDisplay
 
     public void ShowAttackEffect()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+   
     }
 
     // Update is called once per frame

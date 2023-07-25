@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3212433778909527120
 Transform:
   m_ObjectHideFlags: 0
@@ -251,6 +251,7 @@ MonoBehaviour:
   maxMovePoint: 0
   range: 2
   team: 0
+  logicPosition: {x: 0, y: 0}
 --- !u!114 &3239891684493324505
 MonoBehaviour:
   m_ObjectHideFlags: 0

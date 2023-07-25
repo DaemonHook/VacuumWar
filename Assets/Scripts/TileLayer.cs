@@ -60,6 +60,7 @@ public class TileLayer : MonoBehaviour
         var unit = tiles[oldPosition.x, oldPosition.y].BindedUnit;
         if (unit == null)
         {
+            Debug.LogError($"RebindUnit: no unit to rebind!");
             return false;
         }
         tiles[oldPosition.x, oldPosition.y].UnbindUnit();
