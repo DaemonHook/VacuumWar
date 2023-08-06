@@ -265,6 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HPSlider: {fileID: 2767383498275072461}
+  sprite: {fileID: 8358614013026915263}
 --- !u!1 &4169304061142907386
 GameObject:
   m_ObjectHideFlags: 0

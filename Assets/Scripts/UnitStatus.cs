@@ -7,6 +7,8 @@
 using System;
 public struct UnitStatus
 {
+    // 队伍
+    public int team;
     // 单位名称
     public string name;
     // hp, mp, 攻击，射程
@@ -14,8 +16,9 @@ public struct UnitStatus
     // 最大hp，最大mp
     public int maxHitpoint, maxMovePoint;
 
-    public UnitStatus(string name, int maxHitPoint, int maxMovePoint, int damage, int range)
+    public UnitStatus(int team, string name, int maxHitPoint, int maxMovePoint, int damage, int range)
     {
+        this.team = team;
         this.name = name;
         hitpoint = maxHitPoint;
         movePoint = maxMovePoint;

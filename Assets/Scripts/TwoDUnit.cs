@@ -15,8 +15,8 @@ public class TwoDUnit : MonoBehaviour, IUnitDisplay
         unavailableAlpha = 0.7f;
 
     public Slider HPSlider;
-    
-    // public GameObject sprite;
+
+    public SpriteRenderer sprite;
 
     public bool IsIdle()
     {
@@ -61,7 +61,6 @@ public class TwoDUnit : MonoBehaviour, IUnitDisplay
     {
         throw new NotImplementedException();
     }
-
 
 
     // Start is called before the first frame update

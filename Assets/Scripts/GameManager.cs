@@ -65,8 +65,15 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    #region 全局状态获取
-    
+    #region 全局状态
+
+    /// <summary>
+    /// 当前玩家（队伍）
+    /// </summary>
+    public int curTeam { get; private set; }
+
+
+
     /// <summary>
     /// 单位是否可以移动至目标瓦片
     /// </summary>

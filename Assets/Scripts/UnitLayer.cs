@@ -7,6 +7,9 @@ public class UnitLayer : MonoBehaviour
 {
     public static UnitLayer instance;
 
+    [Header("¶ÓÎéÑÕÉ«")]
+    public Color[] teamColors;
+
     public List<UnitController> units;
 
     public Dictionary<Vector2Int, UnitController> unitDict;
