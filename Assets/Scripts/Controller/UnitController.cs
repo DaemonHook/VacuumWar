@@ -20,8 +20,6 @@ public class UnitController : MonoBehaviour
 
     #endregion
 
-    public int team;
-
     public UnitStatus Status { get; private set; }
 
     public Vector2Int logicPosition;
@@ -40,7 +38,7 @@ public class UnitController : MonoBehaviour
         get { return Status.maxMovePoint + Status.range; }
     }
 
-    public void Init(Vector2Int position)
+    public void Init(Vector2Int position, UnitStatus status)
     {
         display.SetPosition(position);
         display.RefreshStatus(Status);
@@ -83,7 +81,7 @@ public class UnitController : MonoBehaviour
 
     private void Awake()
     {
-        Status = new UnitStatus(unitName, maxHitpoint, maxMovePoint, damage, range);
+        //Status = new UnitStatus(unitName, maxHitpoint, maxMovePoint, damage, range);
         display = GetComponent<IUnitDisplay>();
     }
 

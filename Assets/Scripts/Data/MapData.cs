@@ -9,6 +9,7 @@ using UnityEngine;
 public class UnitData
 {
     public string name;
+    public int team;
     public int[] position;
 }
 

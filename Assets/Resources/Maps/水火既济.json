@@ -44,10 +44,19 @@
     ],
     "unit": [
         {
+            "team": 0,
             "name": "King",
             "position": [
-                1,
-                2
+                0,
+                0
+            ]
+        },
+        {
+            "team": 1,
+            "name": "King",
+            "position": [
+                14,
+                7
             ]
         },
         {
